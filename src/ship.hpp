@@ -7,8 +7,7 @@
 
 class ship {
 public:
-	ship (double x, double y);
-	ship (ship &s);
+	ship (double &&x, double &&y);
 	~ship () {};
 
 	void fly ();

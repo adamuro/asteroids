@@ -1,6 +1,6 @@
 #include "ship.hpp"
 
-ship::ship (double x, double y) {
+ship::ship (double &&x, double &&y) {
 	this->x = x;
 	this->y = y;
 	this->xSpeed = 0;
@@ -10,17 +10,6 @@ ship::ship (double x, double y) {
 	this->shipTexture.loadFromFile("./images/ship.png");
 	this->shipImage.setTexture(shipTexture);
 	this->shipImage.setOrigin(25,25);
-}
-
-ship::ship (ship &s) {
-	this->x = s.x;
-	this->y = s.y;
-	this->xSpeed = 0;
-	this->ySpeed = 0;
-	this->rotation = 0;
-
-	this->shipTexture = s.shipTexture;
-	this->shipImage.setTexture(shipTexture);
 }
 
 void ship::fly () {

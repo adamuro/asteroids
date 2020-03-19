@@ -2,9 +2,8 @@
 
 game::game () {
 	window.create(sf::VideoMode(1280.0, 960.0), "Asteroids");
-
-	s = new ship(window.getSize().x / 2, window.getSize().y / 2);
-	a = new asteroid(window.getPosition(), window.getSize());
+	asteroidTexture.loadFromFile("./images/asteroid1.png");
+	clock = sf::Clock();
 }
 
 void game::run () {
@@ -16,19 +15,31 @@ void game::run () {
 				window.close();	
 		}
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			s->rotate(ship::LEFT);
+			s.rotate(ship::LEFT);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			s->rotate(ship::RIGHT);
+			s.rotate(ship::RIGHT);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			s->accelerate();
+			s.accelerate();
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			s->breaks();
+			s.breaks();
 
-		s->fly();
-		a->fly();
+		int time = (int)clock.getElapsedTime().asSeconds();
+		if(time != lastAsteroidTime) {
+			asteroids.push_back(asteroid(window.getPosition(), window.getSize(), asteroidTexture));
+			lastAsteroidTime = time;
+		}
+
 		window.clear();
-		a->draw(&window);
-		s->draw(&window);
+		drawAsteroids();
+		s.fly();
+		s.draw(&window);
 		window.display();
+	}
+}
+
+void game::drawAsteroids () {
+	for(asteroid &a: asteroids) {
+		a.fly();
+		a.draw(&window);
 	}
 }
