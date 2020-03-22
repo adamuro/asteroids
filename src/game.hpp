@@ -6,6 +6,7 @@
 #include <SFML/System.hpp>
 #include "ship.hpp"
 #include "asteroid.hpp"
+#include "bullet.hpp"
 
 class game {
 public:
@@ -14,18 +15,23 @@ public:
 
 	void run ();
 	void drawAsteroids ();
-
+	void drawBullets ();
+	void drawShip ();
 private:
-	ship s = ship(640.0, 480.0);
+	const double windowWidth;
+	const double windowHeight;
+	sf::RenderWindow window;
+
+	ship s {windowWidth / 2, windowHeight / 2};
+	
 	std::vector<asteroid> asteroids;
 	sf::Texture asteroidTexture;
 
-	sf::RenderWindow window;
-	sf::Vector2i windowPosition;
-	sf::Vector2u windowSize;
+	std::vector<bullet> bullets;
+	int bulletsAvailable;
 
 	sf::Clock clock;
-	int lastAsteroidTime;
+	int lastSecond;
 };
 
 #endif

@@ -6,6 +6,7 @@ OBJ =\
 	./src/main.cpp \
 	./src/game.cpp \
 	./src/ship.cpp \
+	./src/bullet.cpp \
 	./src/asteroid.cpp
 
 all: main

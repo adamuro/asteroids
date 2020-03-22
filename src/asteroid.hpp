@@ -12,12 +12,11 @@ public:
 
 	void fly ();
 	void draw (sf::RenderWindow *window);
+
 	enum directions {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
 private:
-	double x;
-	double y;
-	double xSpeed;
-	double ySpeed;
+	sf::Vector2f position;
+	sf::Vector2f speed;
 	double rotation;
 
 	sf::Sprite asteroidImage;

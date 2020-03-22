@@ -1,29 +1,32 @@
 #include "ship.hpp"
 
 ship::ship (double &&x, double &&y) {
-	this->x = x;
-	this->y = y;
-	this->xSpeed = 0;
-	this->ySpeed = 0;
-	this->rotation = 0;
+	position.x = x;
+	position.y = y;
+	speed.x = 0;
+	speed.y = 0;
+	rotation = 0;
 
-	this->shipTexture.loadFromFile("./images/ship.png");
-	this->shipImage.setTexture(shipTexture);
-	this->shipImage.setOrigin(25,25);
+	bulletTexture.loadFromFile("./images/bullet.png");
+	shipTexture.loadFromFile("./images/ship.png");
+	shipImage.setTexture(shipTexture);
+	shipImage.setOrigin(25.0, 25.0);
 }
 
 void ship::fly () {
-	x += xSpeed;
-	y += ySpeed;
+	position += speed;
 }
+
 void ship::accelerate () {
-	xSpeed += 0.0002 * sin(rotation * M_PI / 180.0);
-	ySpeed -= 0.0002 * cos(rotation * M_PI / 180.0);
+	speed.x += 0.0002 * sin(rotation * M_PI / 180.0);
+	speed.y -= 0.0002 * cos(rotation * M_PI / 180.0);
 }
+
 void ship::breaks () {
-	xSpeed *= 0.9995;
-	ySpeed *= 0.9995;
+	speed.x *= 0.9995;
+	speed.y *= 0.9995;
 }
+
 void ship::rotate (const int &direction) {
 	if(direction == LEFT)
 		rotation -= 0.2;
@@ -31,8 +34,12 @@ void ship::rotate (const int &direction) {
 		rotation += 0.2;
 }
 
+bullet ship::shoot () {
+	return bullet(position, rotation, bulletTexture);
+}
+
 void ship::draw (sf::RenderWindow *window) {
-	shipImage.setPosition(x, y);
+	shipImage.setPosition(position);
 	shipImage.setRotation(rotation);
 	window->draw(shipImage);
 }
