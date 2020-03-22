@@ -14,7 +14,7 @@ public:
 	void draw (sf::RenderWindow *window);
 private:
 	sf::Vector2f position;
-	const sf::Vector2f speed;
+	sf::Vector2f speed;
 
 	sf::Sprite bulletImage;
 };
