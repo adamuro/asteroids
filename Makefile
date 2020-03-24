@@ -12,7 +12,7 @@ OBJ =\
 all: main
 
 clean:
-		rm -f *.o chess
+		rm -f *.o asteroids
 
 .cpp.o:
 		$(CC) -c $(INCLUDES) $(CFLAGS) $<
