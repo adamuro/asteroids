@@ -17,6 +17,8 @@ public:
 	void drawAsteroids ();
 	void drawBullets ();
 	void drawShip ();
+
+	void keepShipOnScreen ();
 private:
 	const double windowWidth;
 	const double windowHeight;

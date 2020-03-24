@@ -17,18 +17,25 @@ public:
 	void accelerate ();
 	void breaks ();
 	void rotate (const int &direction);
+	void bounceVer ();
+	void bounceHor ();
 	bullet shoot ();
+
+	sf::Vector2f getPosition ();
 
 	enum directions {LEFT = 0, RIGHT = 1};
 private:
 	sf::Vector2f position;
 	sf::Vector2f speed;
 	double rotation;
+	bool acceleration;
 
 	sf::Texture bulletTexture;
 
 	sf::Texture shipTexture;
+	sf::Texture shipAccelerateTexture;
 	sf::Sprite shipImage;
+	sf::Sprite shipAccelerateImage;
 };
 
 #endif

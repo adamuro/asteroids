@@ -28,9 +28,10 @@ void game::run () {
 			s.accelerate();
 
 		if(time != lastSecond) {
-			asteroids.push_back(asteroid(window.getPosition(), window.getSize(), asteroidTexture));
-			bulletsAvailable++;
 			lastSecond = time;
+			asteroids.push_back(asteroid(window.getPosition(), window.getSize(), asteroidTexture));
+			if(bulletsAvailable < 10)
+				bulletsAvailable++;
 		}
 
 		window.clear();
@@ -56,6 +57,18 @@ void game::drawBullets () {
 }
 
 void game::drawShip () {
+	keepShipOnScreen();
 	s.fly();
 	s.draw(&window);
+}
+
+void game::keepShipOnScreen () {
+	if(s.getPosition().x > window.getSize().x - 14.0 ||
+	  (s.getPosition().x < 16.0)) {
+		s.bounceVer();
+	}
+	if(s.getPosition().y > window.getSize().y - 14.0 ||
+	  (s.getPosition().y < 16.0)) {
+		s.bounceHor();
+	}
 }

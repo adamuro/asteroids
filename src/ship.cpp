@@ -6,11 +6,15 @@ ship::ship (double &&x, double &&y) {
 	speed.x = 0;
 	speed.y = 0;
 	rotation = 0;
+	acceleration = 0;
 
 	bulletTexture.loadFromFile("./images/bullet.png");
 	shipTexture.loadFromFile("./images/ship.png");
 	shipImage.setTexture(shipTexture);
-	shipImage.setOrigin(25.0, 25.0);
+	shipImage.setOrigin(30.0, 30.0);
+	shipAccelerateTexture.loadFromFile("./images/shipAccelerate.png");
+	shipAccelerateImage.setTexture(shipAccelerateTexture);
+	shipAccelerateImage.setOrigin(30.0, 30.0);
 }
 
 void ship::fly () {
@@ -20,6 +24,7 @@ void ship::fly () {
 void ship::accelerate () {
 	speed.x += 0.0002 * sin(rotation * M_PI / 180.0);
 	speed.y -= 0.0002 * cos(rotation * M_PI / 180.0);
+	acceleration = 1;
 }
 
 void ship::breaks () {
@@ -34,12 +39,32 @@ void ship::rotate (const int &direction) {
 		rotation += 0.2;
 }
 
+void ship::bounceVer () {
+	speed.x *= -1;
+}
+
+void ship::bounceHor () {
+	speed.y *= -1;
+}
+
 bullet ship::shoot () {
 	return bullet(position, rotation, bulletTexture);
 }
 
+sf::Vector2f ship::getPosition () {
+	return position;
+}
+
 void ship::draw (sf::RenderWindow *window) {
-	shipImage.setPosition(position);
-	shipImage.setRotation(rotation);
-	window->draw(shipImage);
+	if(acceleration) {
+		shipAccelerateImage.setPosition(position);
+		shipAccelerateImage.setRotation(rotation);
+		window->draw(shipAccelerateImage);
+		acceleration = 0;
+	}
+	else {
+		shipImage.setPosition(position);
+		shipImage.setRotation(rotation);
+		window->draw(shipImage);
+	}
 }
