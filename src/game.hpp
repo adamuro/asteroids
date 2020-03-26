@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include <iostream>
+#include <list>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "ship.hpp"
@@ -14,11 +15,16 @@ public:
 	~game () {}
 
 	void run ();
+	
 	void drawAsteroids ();
 	void drawBullets ();
 	void drawShip ();
 
+	bool offScreen(sf::Vector2f position);
 	void keepShipOnScreen ();
+
+	sf::IntRect FToIRect (const sf::FloatRect &f);
+	bool collision (const sf::Sprite &a, const sf::Sprite &b, const sf::Image &imgA, const sf::Image &imgB);
 private:
 	const double windowWidth;
 	const double windowHeight;
@@ -26,7 +32,7 @@ private:
 
 	ship s {windowWidth / 2, windowHeight / 2};
 	
-	std::vector<asteroid> asteroids;
+	std::list<asteroid*> asteroids;
 	sf::Texture asteroidTexture;
 
 	std::vector<bullet> bullets;

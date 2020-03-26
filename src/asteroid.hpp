@@ -7,11 +7,13 @@
 
 class asteroid {
 public:
-	asteroid (sf::Vector2i windowPosition, sf::Vector2u windowSize, sf::Texture &asteroidTexture);
+	asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture);
 	~asteroid () {}
 
 	void fly ();
 	void draw (sf::RenderWindow *window);
+
+	sf::Vector2f getPosition ();
 
 	enum directions {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
 private:

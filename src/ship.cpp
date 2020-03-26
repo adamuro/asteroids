@@ -22,8 +22,8 @@ void ship::fly () {
 }
 
 void ship::accelerate () {
-	speed.x += 0.0002 * sin(rotation * M_PI / 180.0);
-	speed.y -= 0.0002 * cos(rotation * M_PI / 180.0);
+	speed.x += 0.05 * sin(rotation * M_PI / 180.0);
+	speed.y -= 0.05 * cos(rotation * M_PI / 180.0);
 	acceleration = 1;
 }
 
@@ -34,9 +34,9 @@ void ship::breaks () {
 
 void ship::rotate (const int &direction) {
 	if(direction == LEFT)
-		rotation -= 0.2;
+		rotation -= 2.0;
 	if(direction == RIGHT)
-		rotation += 0.2;
+		rotation += 2.0;
 }
 
 void ship::bounceVer () {
