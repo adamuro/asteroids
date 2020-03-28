@@ -34,9 +34,9 @@ void ship::breaks () {
 
 void ship::rotate (const int &direction) {
 	if(direction == LEFT)
-		rotation -= 2.0;
+		rotation -= 3.0;
 	if(direction == RIGHT)
-		rotation += 2.0;
+		rotation += 3.0;
 }
 
 void ship::bounceVer () {
@@ -47,12 +47,16 @@ void ship::bounceHor () {
 	speed.y *= -1;
 }
 
-bullet ship::shoot () {
-	return bullet(position, rotation, bulletTexture);
+bullet* ship::shoot () {
+	return new bullet(position, rotation, bulletTexture);
 }
 
 sf::Vector2f ship::getPosition () {
 	return position;
+}
+
+sf::Sprite ship::getSprite () {
+	return shipImage;
 }
 
 void ship::draw (sf::RenderWindow *window) {

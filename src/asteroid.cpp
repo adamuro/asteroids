@@ -50,6 +50,14 @@ void asteroid::draw (sf::RenderWindow *window) {
 	window->draw(asteroidImage);
 }
 
-sf::Vector2f asteroid::getPosition () {
-	return position;
+bool asteroid::offScreen (sf::RenderWindow *window) {
+	return (position.x > window->getSize().x  ||
+		   (position.x < 0)	 		     	 ||
+	  	   (position.y > window->getSize().y) ||
+	  	   (position.y < 0));
+}
+
+
+sf::Sprite asteroid::getSprite () {
+	return asteroidImage;
 }

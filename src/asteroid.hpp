@@ -13,7 +13,9 @@ public:
 	void fly ();
 	void draw (sf::RenderWindow *window);
 
-	sf::Vector2f getPosition ();
+	bool offScreen (sf::RenderWindow *window);
+
+	sf::Sprite getSprite ();
 
 	enum directions {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
 private:

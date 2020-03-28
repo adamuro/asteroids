@@ -20,7 +20,6 @@ public:
 	void drawBullets ();
 	void drawShip ();
 
-	bool offScreen(sf::Vector2f position);
 	void keepShipOnScreen ();
 
 	sf::IntRect FToIRect (const sf::FloatRect &f);
@@ -32,10 +31,10 @@ private:
 
 	ship s {windowWidth / 2, windowHeight / 2};
 	
-	std::list<asteroid*> asteroids;
+	std::vector<asteroid*> asteroids;
 	sf::Texture asteroidTexture;
 
-	std::vector<bullet> bullets;
+	std::vector<bullet*> bullets;
 	int bulletsAvailable;
 
 	sf::Clock clock;

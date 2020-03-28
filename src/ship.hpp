@@ -19,9 +19,10 @@ public:
 	void rotate (const int &direction);
 	void bounceVer ();
 	void bounceHor ();
-	bullet shoot ();
+	bullet* shoot ();
 
 	sf::Vector2f getPosition ();
+	sf::Sprite getSprite ();
 
 	enum directions {LEFT = 0, RIGHT = 1};
 private:

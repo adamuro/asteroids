@@ -12,6 +12,10 @@ public:
 
 	void fly ();
 	void draw (sf::RenderWindow *window);
+
+	bool offScreen (sf::RenderWindow *window);
+
+	sf::Sprite getSprite ();
 private:
 	sf::Vector2f position;
 	sf::Vector2f speed;

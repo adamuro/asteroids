@@ -35,10 +35,30 @@ void game::run () {
 			if(bulletsAvailable < 10)
 				bulletsAvailable++;
 		}
-		if(offScreen(asteroids.front()->getPosition())) {
-			delete asteroids.front();
-			asteroids.pop_front();
+		for(uint i = 0; i < asteroids.size(); i++) {
+			for(uint j = 0; j < bullets.size(); j++) {
+				if(bullets[j]->offScreen(&window)) {
+					delete bullets[j];
+					bullets.erase(bullets.begin() + j);
+				}
+				else if(collision(bullets[j]->getSprite(), asteroids[i]->getSprite(), bullets[j]->getSprite().getTexture()->copyToImage(), asteroids[i]->getSprite().getTexture()->copyToImage())) {
+					delete bullets[j];
+					delete asteroids[i];
+					bullets.erase(bullets.begin() + j);
+					asteroids.erase(asteroids.begin() + i);
+				}
+			}
+			if(i < asteroids.size() && asteroids[i]->offScreen(&window)) {
+				delete asteroids[i];
+				asteroids.erase(asteroids.begin() + i);
+			}
+			else if(collision(s.getSprite(), asteroids[i]->getSprite(), s.getSprite().getTexture()->copyToImage(), asteroids[i]->getSprite().getTexture()->copyToImage())) {
+				//return;
+				// end the game immadiately
+			}
 		}
+
+		std::cout << asteroids.size() << " " << bullets.size() << std::endl;
 
 		window.clear();
 		drawAsteroids();
@@ -56,9 +76,9 @@ void game::drawAsteroids () {
 }
 
 void game::drawBullets () {
-	for(bullet &b: bullets) {
-		b.fly();
-		b.draw(&window);
+	for(bullet *b: bullets) {
+		b->fly();
+		b->draw(&window);
 	}
 }
 
@@ -77,13 +97,6 @@ void game::keepShipOnScreen () {
 	  (s.getPosition().y < 16.0)) {
 		s.bounceHor();
 	}
-}
-
-bool game::offScreen(sf::Vector2f position) {
-	return (position.x > window.getSize().x  ||
-		   (position.x < 0)	 		     	 ||
-	  	   (position.y > window.getSize().y) ||
-	  	   (position.y < 0));
 }
 
 sf::IntRect game::FToIRect(const sf::FloatRect& f) {
@@ -123,7 +136,7 @@ bool game::collision(const sf::Sprite &a, const sf::Sprite &b, const sf::Image &
 					 vecB.x < sizeB.x && vecB.y < sizeB.y &&
 					 pixA[idxA] > 0 &&
 					 pixB[idxB] > 0) {
-					return 0;
+					return 1;
 				}
 			}
 	}
