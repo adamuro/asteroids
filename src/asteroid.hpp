@@ -11,11 +11,12 @@ public:
 	~asteroid () {}
 
 	void fly ();
-	void draw (sf::RenderWindow *window);
+	void draw (sf::RenderWindow &window);
 
-	bool offScreen (sf::RenderWindow *window);
+	bool offScreen (sf::RenderWindow &window);
 
 	sf::Sprite getSprite ();
+	sf::Image getImage ();
 
 	enum directions {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
 private:
@@ -23,7 +24,7 @@ private:
 	sf::Vector2f speed;
 	double rotation;
 
-	sf::Sprite asteroidImage;
+	sf::Sprite asteroidSprite;
 };
 
 #endif

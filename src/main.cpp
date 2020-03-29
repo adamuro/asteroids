@@ -2,7 +2,7 @@
 
 int main () {
 	game *g = new game();
-	g->run();
+	std::cout << g->run() << std::endl;
 	delete g;
 	return 0;
 }
@@ -10,7 +10,6 @@ int main () {
 /* TODO:
  * 
  * Main menu
- * Collisions
  * Show score
  * Show available bullets
  * Game over screen

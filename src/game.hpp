@@ -14,16 +14,15 @@ public:
 	game ();
 	~game () {}
 
-	void run ();
+	int run ();
 	
 	void drawAsteroids ();
 	void drawBullets ();
 	void drawShip ();
 
-	void keepShipOnScreen ();
-
 	sf::IntRect FToIRect (const sf::FloatRect &f);
 	bool collision (const sf::Sprite &a, const sf::Sprite &b, const sf::Image &imgA, const sf::Image &imgB);
+	bool checkCollisions ();
 private:
 	const double windowWidth;
 	const double windowHeight;
@@ -36,9 +35,10 @@ private:
 
 	std::vector<bullet*> bullets;
 	//std::vector<sf::RectangleShape> ;
-	int bulletsAvailable;
 
 	sf::Clock clock;
+
+	int score;
 };
 
 #endif

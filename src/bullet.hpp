@@ -11,16 +11,17 @@ public:
 	bullet () {}
 
 	void fly ();
-	void draw (sf::RenderWindow *window);
+	void draw (sf::RenderWindow &window);
 
-	bool offScreen (sf::RenderWindow *window);
+	bool offScreen (sf::RenderWindow &window);
 
 	sf::Sprite getSprite ();
+	sf::Image getImage ();
 private:
 	sf::Vector2f position;
 	sf::Vector2f speed;
 
-	sf::Sprite bulletImage;
+	sf::Sprite bulletSprite;
 };
 
 #endif

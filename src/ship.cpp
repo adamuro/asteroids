@@ -7,25 +7,26 @@ ship::ship (double &&x, double &&y) {
 	speed.y = 0;
 	rotation = 0;
 	acceleration = 0;
+	bulletsAvailable = 0;
 
 	bulletTexture.loadFromFile("./images/bullet.png");
 	shipTexture.loadFromFile("./images/ship.png");
-	shipImage.setTexture(shipTexture);
-	shipImage.setOrigin(30.0, 30.0);
+	shipSprite.setTexture(shipTexture);
+	shipSprite.setOrigin(30.0, 30.0);
 	shipAccelerateTexture.loadFromFile("./images/shipAccelerate.png");
-	shipAccelerateImage.setTexture(shipAccelerateTexture);
-	shipAccelerateImage.setOrigin(30.0, 30.0);
+	shipAccelerateSprite.setTexture(shipAccelerateTexture);
+	shipAccelerateSprite.setOrigin(30.0, 30.0);
 }
 
 void ship::fly () {
 	position += speed;
 	if(acceleration) {
-		shipAccelerateImage.setPosition(position);
-		shipAccelerateImage.setRotation(rotation);
+		shipAccelerateSprite.setPosition(position);
+		shipAccelerateSprite.setRotation(rotation);
 	}
 	else {
-		shipImage.setPosition(position);
-		shipImage.setRotation(rotation);
+		shipSprite.setPosition(position);
+		shipSprite.setRotation(rotation);
 	}
 }
 
@@ -47,6 +48,10 @@ void ship::rotate (const int &direction) {
 		rotation += 4.0;
 }
 
+void ship::load () {
+	bulletsAvailable++;
+}
+
 void ship::bounceVer () {
 	speed.x *= -1.0;
 }
@@ -55,7 +60,27 @@ void ship::bounceHor () {
 	speed.y *= -1.0;
 }
 
+void ship::stayOnScreen (sf::RenderWindow &window) {
+	if(position.x > window.getSize().x - 14.0 ||
+	  (position.x < 16.0)) {
+		bounceVer();
+	}
+	if(position.y > window.getSize().y - 14.0 ||
+	  (position.y < 16.0)) {
+		bounceHor();
+	}
+}
+
+bool ship::magazineFull () {
+	return (bulletsAvailable == 10);
+}
+
+bool ship::magazineEmpty () {
+	return (bulletsAvailable == 0);
+}
+
 bullet* ship::shoot () {
+	bulletsAvailable--;
 	return new bullet(position, rotation, bulletTexture);
 }
 
@@ -64,15 +89,19 @@ sf::Vector2f ship::getPosition () {
 }
 
 sf::Sprite ship::getSprite () {
-	return (acceleration) ? shipAccelerateImage : shipImage;
+	return (acceleration) ? shipAccelerateSprite : shipSprite;
 }
 
-void ship::draw (sf::RenderWindow *window) {
+sf::Image ship::getImage () {
+	return shipSprite.getTexture()->copyToImage();
+}
+
+void ship::draw (sf::RenderWindow &window) {
 	if(acceleration) {
-		window->draw(shipAccelerateImage);
+		window.draw(shipAccelerateSprite);
 	}
 	else {
-		window->draw(shipImage);
+		window.draw(shipSprite);
 	}
 	acceleration = 0;
 }

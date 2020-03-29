@@ -1,8 +1,8 @@
 #include "asteroid.hpp"
 
 asteroid::asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture) {
-	asteroidImage.setTexture(asteroidTexture);
-	asteroidImage.setOrigin(75.0, 60.0);
+	asteroidSprite.setTexture(asteroidTexture);
+	asteroidSprite.setOrigin(75.0, 60.0);
 	
 	srand(time(0));
 	const double mainSpeed = (double)(rand() % 10 + 6) / 8;
@@ -44,20 +44,25 @@ void asteroid::fly () {
 	position += speed;
 }
 
-void asteroid::draw (sf::RenderWindow *window) {
-	asteroidImage.setPosition(position);
-	asteroidImage.setRotation(asteroidImage.getRotation() + rotation);
-	window->draw(asteroidImage);
+void asteroid::draw (sf::RenderWindow &window) {
+	asteroidSprite.setPosition(position);
+	asteroidSprite.setRotation(asteroidSprite.getRotation() + rotation);
+	window.draw(asteroidSprite);
 }
 
-bool asteroid::offScreen (sf::RenderWindow *window) {
-	return (position.x > window->getSize().x + 150  ||
+bool asteroid::offScreen (sf::RenderWindow &window) {
+	return (position.x > window.getSize().x + 150  ||
 		   (position.x < -150)	    		     	||
-	  	   (position.y > window->getSize().y + 150) ||
+	  	   (position.y > window.getSize().y + 150) ||
 	  	   (position.y < -150));
 }
 
 
 sf::Sprite asteroid::getSprite () {
-	return asteroidImage;
+	return asteroidSprite;
+}
+
+
+sf::Image asteroid::getImage () {
+	return asteroidSprite.getTexture()->copyToImage();
 }
