@@ -29,16 +29,15 @@ int game::run () {
 			s.rotate(ship::RIGHT);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			s.accelerate();
+		if(checkCollisions())
+			return score;
 
 		if(clock.getElapsedTime().asSeconds() > 1) {
-			score += 10;
+			increaseScore(10);
 			clock.restart();
 			asteroids.push_back(new asteroid(window.getSize(), asteroidTexture));
 			if(!s.magazineFull())
 				s.load();
-		}
-		if(checkCollisions()) {
-			return score;
 		}
 		
 		window.clear();
@@ -70,14 +69,21 @@ void game::drawShip () {
 	s.draw(window);
 }
 
+void game::increaseScore (int value) {
+	score += value;
+}
+
 sf::IntRect game::FToIRect(const sf::FloatRect& f) {
 	return sf::IntRect((int) f.left, (int) f.top, (int) f.width, (int) f.height);
 }
 
-bool game::collision(const sf::Sprite &a, const sf::Sprite &b, const sf::Image &imgA, const sf::Image &imgB) {
+bool game::collision(const sf::Sprite &a, const sf::Sprite &b) {
 	sf::IntRect boundsA(FToIRect(a.getGlobalBounds()));
 	sf::IntRect boundsB(FToIRect(b.getGlobalBounds()));
 	sf::IntRect intersection;
+
+	const sf::Image imgA = a.getTexture()->copyToImage();
+	const sf::Image imgB = b.getTexture()->copyToImage();
 
 	if(boundsA.intersects(boundsB, intersection)) {
 		const sf::Transform &inverseA(a.getInverseTransform());
@@ -115,25 +121,25 @@ bool game::collision(const sf::Sprite &a, const sf::Sprite &b, const sf::Image &
 }
 
 bool game::checkCollisions () {
-	for(uint i = 0; i < asteroids.size(); i++) {
-		for(uint j = 0; j < bullets.size(); j++) {
-			if(bullets[j]->offScreen(window)) {
-				delete bullets[j];
-				bullets.erase(bullets.begin() + j);
+	for(uint a = 0; a < asteroids.size(); a++) {
+		for(uint b = 0; b < bullets.size(); b++) {
+			if(bullets[b]->offScreen(window)) {
+				delete bullets[b];
+				bullets.erase(bullets.begin() + b);
 			}
-			else if(collision(bullets[j]->getSprite(), asteroids[i]->getSprite(), bullets[j]->getImage(), asteroids[i]->getImage())) {
-				delete bullets[j];
-				delete asteroids[i];
-				bullets.erase(bullets.begin() + j);
-				asteroids.erase(asteroids.begin() + i);
-				score += 50;
+			else if(collision(bullets[b]->getSprite(), asteroids[a]->getSprite())) {
+				delete bullets[b];
+				delete asteroids[a];
+				bullets.erase(bullets.begin() + b);
+				asteroids.erase(asteroids.begin() + a);
+				increaseScore(50);
 			}
 		}
-		if(asteroids[i]->offScreen(window)) {
-			delete asteroids[i];
-			asteroids.erase(asteroids.begin() + i);
+		if(asteroids[a]->offScreen(window)) {
+			delete asteroids[a];
+			asteroids.erase(asteroids.begin() + a);
 		}
-		else if(collision(s.getSprite(), asteroids[i]->getSprite(), s.getImage(), asteroids[i]->getImage())) {
+		else if(collision(s.getSprite(), asteroids[a]->getSprite())) {
 			return 1;
 		}
 	}

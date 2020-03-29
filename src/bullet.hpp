@@ -16,7 +16,6 @@ public:
 	bool offScreen (sf::RenderWindow &window);
 
 	sf::Sprite getSprite ();
-	sf::Image getImage ();
 private:
 	sf::Vector2f position;
 	sf::Vector2f speed;

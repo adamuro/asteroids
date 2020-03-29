@@ -31,7 +31,3 @@ bool bullet::offScreen (sf::RenderWindow &window) {
 sf::Sprite bullet::getSprite () {
 	return bulletSprite;
 }
-
-sf::Image bullet::getImage () {
-	return bulletSprite.getTexture()->copyToImage();
-}

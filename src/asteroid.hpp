@@ -16,7 +16,6 @@ public:
 	bool offScreen (sf::RenderWindow &window);
 
 	sf::Sprite getSprite ();
-	sf::Image getImage ();
 
 	enum directions {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
 private:

@@ -92,10 +92,6 @@ sf::Sprite ship::getSprite () {
 	return (acceleration) ? shipAccelerateSprite : shipSprite;
 }
 
-sf::Image ship::getImage () {
-	return shipSprite.getTexture()->copyToImage();
-}
-
 void ship::draw (sf::RenderWindow &window) {
 	if(acceleration) {
 		window.draw(shipAccelerateSprite);

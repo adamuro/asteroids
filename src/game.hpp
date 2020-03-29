@@ -20,8 +20,10 @@ public:
 	void drawBullets ();
 	void drawShip ();
 
+	void increaseScore (int value);
+
 	sf::IntRect FToIRect (const sf::FloatRect &f);
-	bool collision (const sf::Sprite &a, const sf::Sprite &b, const sf::Image &imgA, const sf::Image &imgB);
+	bool collision (const sf::Sprite &a, const sf::Sprite &b);
 	bool checkCollisions ();
 private:
 	const double windowWidth;

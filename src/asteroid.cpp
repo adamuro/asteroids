@@ -61,8 +61,3 @@ bool asteroid::offScreen (sf::RenderWindow &window) {
 sf::Sprite asteroid::getSprite () {
 	return asteroidSprite;
 }
-
-
-sf::Image asteroid::getImage () {
-	return asteroidSprite.getTexture()->copyToImage();
-}

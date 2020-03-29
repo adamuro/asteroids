@@ -27,7 +27,6 @@ public:
 
 	sf::Vector2f getPosition ();
 	sf::Sprite getSprite ();
-	sf::Image getImage ();
 
 	enum directions {LEFT = 0, RIGHT = 1};
 private:
