@@ -2,11 +2,10 @@
 
 game::game (): windowWidth(1280.0), windowHeight(960.0) {
 	window.create(sf::VideoMode(windowWidth, windowHeight), "Asteroids");
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(60.0);
 	asteroidTexture.loadFromFile("./images/asteroid1.png");
 	clock = sf::Clock();
 	bulletsAvailable = 0;
-	lastSecond = -1;
 }
 
 void game::run () {
@@ -26,11 +25,13 @@ void game::run () {
 			s.rotate(ship::LEFT);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			s.rotate(ship::RIGHT);
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			s.accelerate();
+		}
+		s.fly();
 
-		if(time != lastSecond) {
-			lastSecond = time;
+		if(time > 0) {
+			clock.restart();
 			asteroids.push_back(new asteroid(window.getSize(), asteroidTexture));
 			if(bulletsAvailable < 10)
 				bulletsAvailable++;
@@ -52,13 +53,10 @@ void game::run () {
 				delete asteroids[i];
 				asteroids.erase(asteroids.begin() + i);
 			}
-			else if(collision(s.getSprite(), asteroids[i]->getSprite(), s.getSprite().getTexture()->copyToImage(), asteroids[i]->getSprite().getTexture()->copyToImage())) {
-				//return;
-				// end the game immadiately
+			if(collision(s.getSprite(), asteroids[i]->getSprite(), s.getSprite().getTexture()->copyToImage(), asteroids[i]->getSprite().getTexture()->copyToImage())) {
+				return;
 			}
 		}
-
-		std::cout << asteroids.size() << " " << bullets.size() << std::endl;
 
 		window.clear();
 		drawAsteroids();
@@ -84,7 +82,6 @@ void game::drawBullets () {
 
 void game::drawShip () {
 	keepShipOnScreen();
-	s.fly();
 	s.draw(&window);
 }
 

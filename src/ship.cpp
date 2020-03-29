@@ -19,11 +19,19 @@ ship::ship (double &&x, double &&y) {
 
 void ship::fly () {
 	position += speed;
+	if(acceleration) {
+		shipAccelerateImage.setPosition(position);
+		shipAccelerateImage.setRotation(rotation);
+	}
+	else {
+		shipImage.setPosition(position);
+		shipImage.setRotation(rotation);
+	}
 }
 
 void ship::accelerate () {
-	speed.x += 0.05 * sin(rotation * M_PI / 180.0);
-	speed.y -= 0.05 * cos(rotation * M_PI / 180.0);
+	speed.x += 0.1 * sin(rotation * M_PI / 180.0);
+	speed.y -= 0.1 * cos(rotation * M_PI / 180.0);
 	acceleration = 1;
 }
 
@@ -34,17 +42,17 @@ void ship::breaks () {
 
 void ship::rotate (const int &direction) {
 	if(direction == LEFT)
-		rotation -= 3.0;
+		rotation -= 4.0;
 	if(direction == RIGHT)
-		rotation += 3.0;
+		rotation += 4.0;
 }
 
 void ship::bounceVer () {
-	speed.x *= -1;
+	speed.x *= -1.0;
 }
 
 void ship::bounceHor () {
-	speed.y *= -1;
+	speed.y *= -1.0;
 }
 
 bullet* ship::shoot () {
@@ -56,19 +64,15 @@ sf::Vector2f ship::getPosition () {
 }
 
 sf::Sprite ship::getSprite () {
-	return shipImage;
+	return (acceleration) ? shipAccelerateImage : shipImage;
 }
 
 void ship::draw (sf::RenderWindow *window) {
 	if(acceleration) {
-		shipAccelerateImage.setPosition(position);
-		shipAccelerateImage.setRotation(rotation);
 		window->draw(shipAccelerateImage);
-		acceleration = 0;
 	}
 	else {
-		shipImage.setPosition(position);
-		shipImage.setRotation(rotation);
 		window->draw(shipImage);
 	}
+	acceleration = 0;
 }

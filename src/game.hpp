@@ -35,10 +35,10 @@ private:
 	sf::Texture asteroidTexture;
 
 	std::vector<bullet*> bullets;
+	//std::vector<sf::RectangleShape> ;
 	int bulletsAvailable;
 
 	sf::Clock clock;
-	int lastSecond;
 };
 
 #endif

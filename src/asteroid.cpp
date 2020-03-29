@@ -5,8 +5,8 @@ asteroid::asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture) {
 	asteroidImage.setOrigin(75.0, 60.0);
 	
 	srand(time(0));
-	const double mainSpeed = (double)(rand() % 10 + 6) / 10;
-	const double sideSpeed = (double)(rand() % 10 + 6) / 10;
+	const double mainSpeed = (double)(rand() % 10 + 6) / 8;
+	const double sideSpeed = (double)(rand() % 10 + 6) / 8;
 	const int direction = (rand() % 2) ? 1 : -1;
 	const int side = rand() % 4;
 
@@ -51,10 +51,10 @@ void asteroid::draw (sf::RenderWindow *window) {
 }
 
 bool asteroid::offScreen (sf::RenderWindow *window) {
-	return (position.x > window->getSize().x  ||
-		   (position.x < 0)	 		     	 ||
-	  	   (position.y > window->getSize().y) ||
-	  	   (position.y < 0));
+	return (position.x > window->getSize().x + 150  ||
+		   (position.x < -150)	    		     	||
+	  	   (position.y > window->getSize().y + 150) ||
+	  	   (position.y < -150));
 }
 
 

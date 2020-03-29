@@ -22,10 +22,10 @@ void bullet::draw (sf::RenderWindow *window) {
 }
 
 bool bullet::offScreen (sf::RenderWindow *window) {
-	return (position.x > window->getSize().x  ||
-		   (position.x < 0)	 		     	 ||
-	  	   (position.y > window->getSize().y) ||
-	  	   (position.y < 0));
+	return (position.x > window->getSize().x + 50  ||
+		   (position.x < -50)	 		     	   ||
+	  	   (position.y > window->getSize().y + 50) ||
+	  	   (position.y < -50));
 }
 
 sf::Sprite bullet::getSprite () {
