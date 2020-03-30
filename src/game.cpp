@@ -32,10 +32,12 @@ int game::run () {
 		if(checkCollisions())
 			return score;
 
-		if(clock.getElapsedTime().asSeconds() > 1) {
+		if(clock.getElapsedTime().asSeconds() > 0.5) {
 			increaseScore(10);
 			clock.restart();
 			asteroids.push_back(new asteroid(window.getSize(), asteroidTexture));
+			
+			// Put it in separate if to make loading slower
 			if(!s.magazineFull())
 				s.load();
 		}

@@ -4,7 +4,12 @@ asteroid::asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture) {
 	asteroidSprite.setTexture(asteroidTexture);
 	asteroidSprite.setOrigin(75.0, 60.0);
 	
-	srand(time(0));
+	const auto systemTime = std::chrono::system_clock::now();
+	const auto epochTime = systemTime.time_since_epoch();
+	const auto timeMillisec = std::chrono::duration_cast<std::chrono::milliseconds>(epochTime);
+	const int seed = timeMillisec.count();
+	srand(seed);
+
 	const double mainSpeed = (double)(rand() % 10 + 6) / 8;
 	const double sideSpeed = (double)(rand() % 10 + 6) / 8;
 	const int direction = (rand() % 2) ? 1 : -1;

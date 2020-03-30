@@ -20,14 +20,10 @@ ship::ship (double &&x, double &&y) {
 
 void ship::fly () {
 	position += speed;
-	if(acceleration) {
-		shipAccelerateSprite.setPosition(position);
-		shipAccelerateSprite.setRotation(rotation);
-	}
-	else {
-		shipSprite.setPosition(position);
-		shipSprite.setRotation(rotation);
-	}
+	shipAccelerateSprite.setPosition(position);
+	shipAccelerateSprite.setRotation(rotation);
+	shipSprite.setPosition(position);
+	shipSprite.setRotation(rotation);
 }
 
 void ship::accelerate () {

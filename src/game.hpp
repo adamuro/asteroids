@@ -36,11 +36,12 @@ private:
 	sf::Texture asteroidTexture;
 
 	std::vector<bullet*> bullets;
-	//std::vector<sf::RectangleShape> ;
+	// Vector for drawing available bullets.
 
 	sf::Clock clock;
-
+	// Need to make separate clocks for asteroids and bullets.
 	int score;
+	// Something to draw score.
 };
 
 #endif

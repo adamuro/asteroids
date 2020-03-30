@@ -4,6 +4,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <ctime>
+#include <chrono>
+#include <cstdint>
 
 class asteroid {
 public:
