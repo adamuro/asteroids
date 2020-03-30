@@ -127,21 +127,25 @@ bool game::checkCollisions () {
 				delete bullets[b];
 				bullets.erase(bullets.begin() + b);
 			}
-			else if(collision(bullets[b]->getSprite(), asteroids[a]->getSprite())) {
-				delete bullets[b];
-				delete asteroids[a];
-				bullets.erase(bullets.begin() + b);
-				asteroids.erase(asteroids.begin() + a);
-				increaseScore(50);
+			else if(a < asteroids.size()) { 
+				if(collision(bullets[b]->getSprite(), asteroids[a]->getSprite())) {
+					delete bullets[b];
+					delete asteroids[a];
+					bullets.erase(bullets.begin() + b);
+					asteroids.erase(asteroids.begin() + a);
+					increaseScore(50);
+				}
 			}
 		}
-		if(asteroids[a]->offScreen(window)) {
-			delete asteroids[a];
-			asteroids.erase(asteroids.begin() + a);
-		}
-		else if(collision(s.getSprite(), asteroids[a]->getSprite())) {
-			return 1;
-		}
+		if(a < asteroids.size()) {
+			if(asteroids[a]->offScreen(window)) {
+				delete asteroids[a];
+				asteroids.erase(asteroids.begin() + a);
+			}
+			else if(collision(s.getSprite(), asteroids[a]->getSprite())) {
+				return 1;
+			}
+}
 	}
 	return 0;
 }
