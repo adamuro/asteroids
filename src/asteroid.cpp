@@ -18,25 +18,25 @@ asteroid::asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture) {
 	rotation = (double)(rand() % 4) / 10 * direction;
 
 	switch(side) {
-		case LEFT:
+		case left:
 			position.x = 0;
 			position.y = rand() % (int)windowSize.y;
 			speed.x = mainSpeed;
 			speed.y = sideSpeed * direction;
 			break;
-		case RIGHT:
+		case right:
 			position.x = windowSize.x;
 			position.y = rand() % (int)windowSize.y;
 			speed.x = -mainSpeed;
 			speed.y = sideSpeed * direction;
 			break;
-		case UP:
+		case up:
 			position.x = rand() % (int)windowSize.x;
 			position.y = 0;
 			speed.y = mainSpeed;
 			speed.x = sideSpeed * direction;
 			break;
-		case DOWN:
+		case down:
 			position.x = rand() % (int)windowSize.x;
 			position.y = windowSize.y;
 			speed.y = -mainSpeed;
@@ -55,10 +55,10 @@ void asteroid::draw (sf::RenderWindow &window) {
 	window.draw(asteroidSprite);
 }
 
-bool asteroid::offScreen (sf::RenderWindow &window) {
-	return (position.x > window.getSize().x + 150  ||
-		   (position.x < -150)	    		     	||
-	  	   (position.y > window.getSize().y + 150) ||
+bool asteroid::offScreen (const sf::Vector2f &windowSize) {
+	return (position.x > windowSize.x + 150  ||
+		   (position.x < -150)	    		 ||
+	  	   (position.y > windowSize.y + 150) ||
 	  	   (position.y < -150));
 }
 

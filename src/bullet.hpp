@@ -7,13 +7,13 @@
 
 class bullet {
 public:
-	bullet (sf::Vector2f spawn, double rotation, sf::Texture &bulletTexture);
+	bullet (const double &rotation, const sf::Vector2f &spawnPoint, const sf::Texture &bulletTexture);
 	bullet () {}
 
-	void fly ();
+	void fly (); // Update position.
 	void draw (sf::RenderWindow &window);
 
-	bool offScreen (sf::RenderWindow &window);
+	bool offScreen (const sf::Vector2f &windowSize);
 
 	sf::Sprite getSprite ();
 private:

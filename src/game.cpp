@@ -1,10 +1,11 @@
 #include "game.hpp"
 
-game::game (): windowWidth(1280.0), windowHeight(960.0) {
-	window.create(sf::VideoMode(windowWidth, windowHeight), "Asteroids");
+game::game () {
+	window.create(sf::VideoMode(windowSize.x, windowSize.y), "Asteroids");
 	window.setFramerateLimit(60.0);
 	asteroidTexture.loadFromFile("./images/asteroid1.png");
-	clock = sf::Clock();
+	asteroidsClock = sf::Clock();
+	bulletsClock = sf::Clock();
 	score = 0;
 }
 
@@ -18,30 +19,34 @@ int game::run () {
 			if(event.type == sf::Event::KeyReleased) {
 				if(event.key.code == sf::Keyboard::Space) {
 					if(!s.magazineEmpty()) {
+						if(s.magazineFull())
+							bulletsClock.restart();
 						bullets.push_back(s.shoot());
 					}
 				}
 			}
 		}
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			s.rotate(ship::LEFT);
+			s.rotate(ship::left);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) 
-			s.rotate(ship::RIGHT);
+			s.rotate(ship::right);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			s.accelerate();
 		if(checkCollisions())
 			return score;
 
-		if(clock.getElapsedTime().asSeconds() > 0.5) {
+		if(asteroidsClock.getElapsedTime().asSeconds() > 0.5) {
 			increaseScore(10);
-			clock.restart();
+			asteroidsClock.restart();
 			asteroids.push_back(new asteroid(window.getSize(), asteroidTexture));
-			
-			// Put it in separate if to make loading slower
-			if(!s.magazineFull())
-				s.load();
 		}
-		
+		if(bulletsClock.getElapsedTime().asSeconds() > 1) {
+			if(!s.magazineFull()) {
+				s.load();
+				bulletsClock.restart();
+			}
+		}
+
 		window.clear();
 		drawBullets();
 		drawShip();
@@ -66,12 +71,12 @@ void game::drawBullets () {
 }
 
 void game::drawShip () {
-	s.stayOnScreen(window);
+	s.stayOnScreen(windowSize);
 	s.fly();
 	s.draw(window);
 }
 
-void game::increaseScore (int value) {
+void game::increaseScore (const int value) {
 	score += value;
 }
 
@@ -125,7 +130,7 @@ bool game::collision(const sf::Sprite &a, const sf::Sprite &b) {
 bool game::checkCollisions () {
 	for(uint a = 0; a < asteroids.size(); a++) {
 		for(uint b = 0; b < bullets.size(); b++) {
-			if(bullets[b]->offScreen(window)) {
+			if(bullets[b]->offScreen(windowSize)) {
 				delete bullets[b];
 				bullets.erase(bullets.begin() + b);
 			}
@@ -140,7 +145,7 @@ bool game::checkCollisions () {
 			}
 		}
 		if(a < asteroids.size()) {
-			if(asteroids[a]->offScreen(window)) {
+			if(asteroids[a]->offScreen(windowSize)) {
 				delete asteroids[a];
 				asteroids.erase(asteroids.begin() + a);
 			}

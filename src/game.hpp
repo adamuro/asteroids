@@ -20,17 +20,16 @@ public:
 	void drawBullets ();
 	void drawShip ();
 
-	void increaseScore (int value);
+	void increaseScore (const int value);
 
-	sf::IntRect FToIRect (const sf::FloatRect &f);
-	bool collision (const sf::Sprite &a, const sf::Sprite &b);
-	bool checkCollisions ();
+	sf::IntRect FToIRect (const sf::FloatRect &f); // Auxilliary collision function.
+	bool collision (const sf::Sprite &a, const sf::Sprite &b); // True if sprites' images 'touch' each other.
+	bool checkCollisions (); // Delete off screen or colliding asteroids and bullets. True if ship was hit by asteroid.
 private:
-	const double windowWidth;
-	const double windowHeight;
+	const sf::Vector2f windowSize {1280.0, 960.0};
 	sf::RenderWindow window;
 
-	ship s {windowWidth / 2, windowHeight / 2};
+	ship s {windowSize};
 	
 	std::vector<asteroid*> asteroids;
 	sf::Texture asteroidTexture;
@@ -38,8 +37,9 @@ private:
 	std::vector<bullet*> bullets;
 	// Vector for drawing available bullets.
 
-	sf::Clock clock;
-	// Need to make separate clocks for asteroids and bullets.
+	sf::Clock asteroidsClock;
+	sf::Clock bulletsClock;
+
 	int score;
 	// Something to draw score.
 };

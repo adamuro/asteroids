@@ -1,8 +1,8 @@
 #include "ship.hpp"
 
-ship::ship (double &&x, double &&y) {
-	position.x = x;
-	position.y = y;
+ship::ship (const sf::Vector2f windowSize) {
+	position.x = windowSize.x / 2;
+	position.y = windowSize.y / 2;
 	speed.x = 0;
 	speed.y = 0;
 	rotation = 0;
@@ -38,14 +38,10 @@ void ship::breaks () {
 }
 
 void ship::rotate (const int &direction) {
-	if(direction == LEFT)
+	if(direction == left)
 		rotation -= 4.0;
-	if(direction == RIGHT)
+	if(direction == right)
 		rotation += 4.0;
-}
-
-void ship::load () {
-	bulletsAvailable++;
 }
 
 void ship::bounceVer () {
@@ -56,12 +52,12 @@ void ship::bounceHor () {
 	speed.y *= -1.0;
 }
 
-void ship::stayOnScreen (sf::RenderWindow &window) {
-	if(position.x > window.getSize().x - 14.0 ||
+void ship::stayOnScreen (const sf::Vector2f &windowSize) {
+	if(position.x > windowSize.x - 14.0 ||
 	  (position.x < 16.0)) {
 		bounceVer();
 	}
-	if(position.y > window.getSize().y - 14.0 ||
+	if(position.y > windowSize.y - 14.0 ||
 	  (position.y < 16.0)) {
 		bounceHor();
 	}
@@ -75,9 +71,13 @@ bool ship::magazineEmpty () {
 	return (bulletsAvailable == 0);
 }
 
+void ship::load () {
+	bulletsAvailable++;
+}
+
 bullet* ship::shoot () {
 	bulletsAvailable--;
-	return new bullet(position, rotation, bulletTexture);
+	return new bullet(rotation, position, bulletTexture);
 }
 
 sf::Vector2f ship::getPosition () {
@@ -89,11 +89,10 @@ sf::Sprite ship::getSprite () {
 }
 
 void ship::draw (sf::RenderWindow &window) {
-	if(acceleration) {
+	if(acceleration)
 		window.draw(shipAccelerateSprite);
-	}
-	else {
+	else
 		window.draw(shipSprite);
-	}
+
 	acceleration = 0;
 }

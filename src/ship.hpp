@@ -8,27 +8,27 @@
 
 class ship {
 public:
-	ship (double &&x, double &&y);
+	ship (const sf::Vector2f windowSize);
 	~ship () {};
 
 	void draw (sf::RenderWindow &window);
 	
-	void fly ();
+	void fly (); // Update position.
 	void accelerate ();
 	void breaks ();
 	void rotate (const int &direction);
-	void load ();
-	void bounceVer ();
-	void bounceHor ();
-	void stayOnScreen (sf::RenderWindow &window);
+	void bounceVer (); // Two auxilliary
+	void bounceHor (); // stayOnScreen functions.
+	void stayOnScreen (const sf::Vector2f &windowSize); // Bouncing off the screen borders.
 	bool magazineFull ();
 	bool magazineEmpty ();
+	void load ();
 	bullet* shoot ();
 
 	sf::Vector2f getPosition ();
 	sf::Sprite getSprite ();
 
-	enum directions {LEFT = 0, RIGHT = 1};
+	enum directions {left = 0, right = 1};
 private:
 	sf::Vector2f position;
 	sf::Vector2f speed;
@@ -36,12 +36,12 @@ private:
 	bool acceleration;
 	int bulletsAvailable;
 
-	sf::Texture bulletTexture;
-
 	sf::Texture shipTexture;
 	sf::Texture shipAccelerateTexture;
 	sf::Sprite shipSprite;
 	sf::Sprite shipAccelerateSprite;
+
+	sf::Texture bulletTexture;
 };
 
 #endif

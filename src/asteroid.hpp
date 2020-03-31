@@ -12,14 +12,14 @@ public:
 	asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture);
 	~asteroid () {}
 
-	void fly ();
+	void fly (); // Update position.
 	void draw (sf::RenderWindow &window);
 
-	bool offScreen (sf::RenderWindow &window);
+	bool offScreen (const sf::Vector2f &windowSize);
 
 	sf::Sprite getSprite ();
 
-	enum directions {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
+	enum directions {up = 0, down = 1, left = 2, right = 3};
 private:
 	sf::Vector2f position;
 	sf::Vector2f speed;

@@ -1,6 +1,6 @@
 #include "bullet.hpp"
 
-bullet::bullet (sf::Vector2f spawn, double rotation, sf::Texture &bulletTexture) {
+bullet::bullet (const double &rotation, const sf::Vector2f &spawn, const sf::Texture &bulletTexture) {
 	bulletSprite.setTexture(bulletTexture);
 	bulletSprite.setOrigin(25.0, 25.0);
 	bulletSprite.setRotation(rotation + 90.0);
@@ -21,10 +21,10 @@ void bullet::draw (sf::RenderWindow &window) {
 	window.draw(bulletSprite);
 }
 
-bool bullet::offScreen (sf::RenderWindow &window) {
-	return (position.x > window.getSize().x + 50  ||
-		   (position.x < -50)	 		     	   ||
-	  	   (position.y > window.getSize().y + 50) ||
+bool bullet::offScreen (const sf::Vector2f &windowSize) {
+	return (position.x > windowSize.x + 50  ||
+		   (position.x < -50)	 		    ||
+	  	   (position.y > windowSize.y + 50) ||
 	  	   (position.y < -50));
 }
 
