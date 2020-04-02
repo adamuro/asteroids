@@ -2,7 +2,8 @@
 #define GAME_HPP
 
 #include <iostream>
-#include <list>
+#include <string>
+#include <cmath>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "ship.hpp"
@@ -11,14 +12,15 @@
 
 class game {
 public:
-	game ();
-	~game () {}
+	game (sf::RenderWindow &window);
+	~game ();
 
 	int run ();
 	
 	void drawAsteroids ();
 	void drawBullets ();
 	void drawShip ();
+	void drawScore ();
 
 	void increaseScore (const int value);
 
@@ -27,7 +29,7 @@ public:
 	bool checkCollisions (); // Delete off screen or colliding asteroids and bullets. True if ship was hit by asteroid.
 private:
 	const sf::Vector2f windowSize {1280.0, 960.0};
-	sf::RenderWindow window;
+	sf::RenderWindow &window;
 
 	ship s {windowSize};
 	
@@ -41,7 +43,8 @@ private:
 	sf::Clock bulletsClock;
 
 	int score;
-	// Something to draw score.
+	sf::Text scoreText;
+	sf::Font scoreFont;
 };
 
 #endif

@@ -1,12 +1,23 @@
 #include "game.hpp"
 
-game::game () {
-	window.create(sf::VideoMode(windowSize.x, windowSize.y), "Asteroids");
-	window.setFramerateLimit(60.0);
+game::game (sf::RenderWindow &window_): window(window_) {
 	asteroidTexture.loadFromFile("./images/asteroid1.png");
 	asteroidsClock = sf::Clock();
 	bulletsClock = sf::Clock();
-	score = 0;
+	scoreFont = sf::Font();
+	scoreFont.loadFromFile("./fonts/BebasNeue-Regular.ttf");
+	scoreText = sf::Text();
+	scoreText.setFont(scoreFont);
+	scoreText.setCharacterSize(40.0);
+	scoreText.setFillColor(sf::Color(sf::Color::White));
+	score = 10.0;
+}
+
+game::~game () {
+	for(asteroid *a: asteroids)
+		delete a;
+	for(bullet *b: bullets)
+		delete b;
 }
 
 int game::run () {
@@ -51,6 +62,7 @@ int game::run () {
 		drawBullets();
 		drawShip();
 		drawAsteroids();
+		drawScore();
 		window.display();
 	}
 	return -1; // Error
@@ -74,6 +86,13 @@ void game::drawShip () {
 	s.stayOnScreen(windowSize);
 	s.fly();
 	s.draw(window);
+}
+
+void game::drawScore () {
+	int distFromBorder = 16.0 * (int)log10(score) + 130.0;
+	scoreText.setPosition(1280.0 - distFromBorder, 900.0);
+	scoreText.setString("Score: " + std::to_string(score));
+	window.draw(scoreText);
 }
 
 void game::increaseScore (const int value) {
@@ -150,6 +169,7 @@ bool game::checkCollisions () {
 				asteroids.erase(asteroids.begin() + a);
 			}
 			else if(collision(s.getSprite(), asteroids[a]->getSprite())) {
+				system("sleep 1");
 				return 1;
 			}
 }

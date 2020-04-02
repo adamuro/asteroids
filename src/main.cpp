@@ -1,9 +1,16 @@
+#include <iostream>
+#include <SFML/Graphics.hpp>
 #include "game.hpp"
 
 int main () {
-	game *g = new game();
-	std::cout << g->run() << std::endl;
-	delete g;
+	sf::RenderWindow window(sf::VideoMode(1280.0, 960.0), "Asteroids");
+	window.setFramerateLimit(60.0);
+
+	while(window.isOpen()) {
+		game *g = new game(window);
+		g->run();
+		delete g;
+	}
 	return 0;
 }
 
