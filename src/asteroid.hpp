@@ -12,6 +12,8 @@ public:
 	asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture);
 	~asteroid () {}
 
+	const int generateSeed ();
+
 	void fly (); // Update position.
 	void draw (sf::RenderWindow &window);
 

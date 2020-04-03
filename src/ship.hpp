@@ -22,6 +22,7 @@ public:
 	void stayOnScreen (const sf::Vector2f &windowSize); // Bouncing off the screen borders.
 	bool magazineFull ();
 	bool magazineEmpty ();
+	int getBulletsNum ();
 	void load ();
 	bullet* shoot ();
 

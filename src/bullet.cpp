@@ -8,8 +8,8 @@ bullet::bullet (const double &rotation, const sf::Vector2f &spawn, const sf::Tex
 	speed.x += 5 * sin(rotation * M_PI / 180.0);
 	speed.y -= 5 * cos(rotation * M_PI / 180.0);
 
-	position.x = spawn.x + speed.x * 5;
-	position.y = spawn.y + speed.y * 5;
+	position.x = spawn.x + speed.x * 2.5;
+	position.y = spawn.y + speed.y * 2.5;
 }
 
 void bullet::fly () {

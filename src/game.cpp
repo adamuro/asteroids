@@ -3,6 +3,9 @@
 game::game (sf::RenderWindow &window_): window(window_) {
 	asteroidTexture.loadFromFile("./images/asteroid1.png");
 	asteroidsClock = sf::Clock();
+	bulletTexture.loadFromFile("./images/bullet.png");
+	bulletSprite.setTexture(bulletTexture);
+	bulletSprite.setPosition(50.0, 910.0);
 	bulletsClock = sf::Clock();
 	scoreFont = sf::Font();
 	scoreFont.loadFromFile("./fonts/BebasNeue-Regular.ttf");
@@ -63,6 +66,7 @@ int game::run () {
 		drawShip();
 		drawAsteroids();
 		drawScore();
+		drawAvailableBullets();
 		window.display();
 	}
 	return -1; // Error
@@ -93,6 +97,22 @@ void game::drawScore () {
 	scoreText.setPosition(1280.0 - distFromBorder, 900.0);
 	scoreText.setString("Score: " + std::to_string(score));
 	window.draw(scoreText);
+}
+
+void game::drawAvailableBullets () {
+	sf::RectangleShape bulletField(sf::Vector2f(10.0, 10.0));
+
+	for(int i = 0; i < 10; i++) {
+		bulletField.setPosition(10.0 + i * 15.0, 900.0);
+
+		if(s.getBulletsNum() > i)
+			bulletField.setFillColor(sf::Color(sf::Color::Green));
+		else
+			bulletField.setFillColor(sf::Color(sf::Color::Red));
+
+		window.draw(bulletField);
+	}
+	window.draw(bulletSprite);
 }
 
 void game::increaseScore (const int value) {

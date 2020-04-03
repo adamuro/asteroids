@@ -17,7 +17,6 @@ int main () {
 /* TODO:
  * 
  * Main menu
- * Show available bullets
  * Game over screen
  * Highscores
  *

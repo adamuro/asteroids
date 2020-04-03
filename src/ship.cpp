@@ -4,7 +4,7 @@ ship::ship (const sf::Vector2f windowSize) {
 	position.x = windowSize.x / 2;
 	position.y = windowSize.y / 2;
 	speed.x = 0;
-	speed.y = 0;
+	speed.y = -1;
 	rotation = 0;
 	acceleration = 0;
 	bulletsAvailable = 0;
@@ -71,6 +71,10 @@ bool ship::magazineEmpty () {
 	return (bulletsAvailable == 0);
 }
 
+int ship::getBulletsNum () {
+	return bulletsAvailable;
+}
+
 void ship::load () {
 	bulletsAvailable++;
 }
@@ -85,7 +89,7 @@ sf::Vector2f ship::getPosition () {
 }
 
 sf::Sprite ship::getSprite () {
-	return (acceleration) ? shipAccelerateSprite : shipSprite;
+	return shipSprite;
 }
 
 void ship::draw (sf::RenderWindow &window) {

@@ -21,6 +21,7 @@ public:
 	void drawBullets ();
 	void drawShip ();
 	void drawScore ();
+	void drawAvailableBullets ();
 
 	void increaseScore (const int value);
 
@@ -37,6 +38,8 @@ private:
 	sf::Texture asteroidTexture;
 
 	std::vector<bullet*> bullets;
+	sf::Texture bulletTexture;
+	sf::Sprite bulletSprite;
 	// Vector for drawing available bullets.
 
 	sf::Clock asteroidsClock;
