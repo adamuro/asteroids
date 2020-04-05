@@ -1,14 +1,14 @@
 #include "asteroid.hpp"
 
-asteroid::asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture) {
+asteroid::asteroid (sf::Vector2f windowSize, sf::Texture &asteroidTexture) {
 	asteroidSprite.setTexture(asteroidTexture);
 	asteroidSprite.setOrigin(75.0, 60.0);
 	
 	const int seed = generateSeed();
 	srand(seed);
 
-	const double mainSpeed = (double)(rand() % 15 + 5) / 8;
-	const double sideSpeed = (double)(rand() % 25 + 5) / 8;
+	const double mainSpeed = (double)(rand() % 20 + 5) / 10;
+	const double sideSpeed = (double)(rand() % ((int)(mainSpeed * 10))) / 10;
 	const int direction = (rand() % 2) ? 1 : -1;
 	const int side = rand() % 4;
 

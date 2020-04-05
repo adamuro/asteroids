@@ -1,12 +1,20 @@
 #include "game.hpp"
 
-game::game (sf::RenderWindow &window_): window(window_) {
+game::game (sf::RenderWindow &window_): 
+	windowSize(window_.getSize()),
+	window(window_) {
+	gameClock = sf::Clock();
+
 	asteroidTexture.loadFromFile("./images/asteroid1.png");
 	asteroidsClock = sf::Clock();
+	asteroidsRespTime = 0.5;
+
 	bulletTexture.loadFromFile("./images/bullet.png");
 	bulletSprite.setTexture(bulletTexture);
-	bulletSprite.setPosition(50.0, 910.0);
+	bulletSprite.setPosition(50.0, windowSize.y - 50.0);
 	bulletsClock = sf::Clock();
+	reloadTime = 1.0;
+
 	scoreFont = sf::Font();
 	scoreFont.loadFromFile("./fonts/BebasNeue-Regular.ttf");
 	scoreText = sf::Text();
@@ -49,15 +57,21 @@ int game::run () {
 		if(checkCollisions())
 			return score;
 
-		if(asteroidsClock.getElapsedTime().asSeconds() > 0.5) {
-			increaseScore(10);
+		if(asteroidsClock.getElapsedTime().asSeconds() > asteroidsRespTime) {
+			increaseScore(10.0);
 			asteroidsClock.restart();
-			asteroids.push_back(new asteroid(window.getSize(), asteroidTexture));
+			asteroids.push_back(new asteroid(windowSize, asteroidTexture));
 		}
-		if(bulletsClock.getElapsedTime().asSeconds() > 1) {
+		if(bulletsClock.getElapsedTime().asSeconds() > reloadTime) {
 			if(!s.magazineFull()) {
 				s.load();
 				bulletsClock.restart();
+			}
+		}
+		if(gameClock.getElapsedTime().asSeconds() > 1) {
+			gameClock.restart();
+			if(asteroidsRespTime > 0.1) {
+				asteroidsRespTime -= 0.0025;
 			}
 		}
 
@@ -93,17 +107,23 @@ void game::drawShip () {
 }
 
 void game::drawScore () {
-	int distFromBorder = 16.0 * (int)log10(score) + 130.0;
-	scoreText.setPosition(1280.0 - distFromBorder, 900.0);
+	double distFromRightBorder = 16.0 * (int)log10(score) + 130.0;
+	double xScorePosition = windowSize.x - distFromRightBorder;
+	double yScorePosition = windowSize.y - 60.0;
+
+	scoreText.setPosition(xScorePosition, yScorePosition);
 	scoreText.setString("Score: " + std::to_string(score));
+
 	window.draw(scoreText);
 }
 
 void game::drawAvailableBullets () {
+	double yFieldPosition = windowSize.y - 60.0;
 	sf::RectangleShape bulletField(sf::Vector2f(10.0, 10.0));
 
 	for(int i = 0; i < 10; i++) {
-		bulletField.setPosition(10.0 + i * 15.0, 900.0);
+		double xFieldPosition = 10.0 + i * 15.0;
+		bulletField.setPosition(xFieldPosition, yFieldPosition);
 
 		if(s.getBulletsNum() > i)
 			bulletField.setFillColor(sf::Color(sf::Color::Green));
@@ -179,7 +199,7 @@ bool game::checkCollisions () {
 					delete asteroids[a];
 					bullets.erase(bullets.begin() + b);
 					asteroids.erase(asteroids.begin() + a);
-					increaseScore(50);
+					increaseScore(50.0);
 				}
 			}
 		}

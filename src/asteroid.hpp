@@ -9,7 +9,7 @@
 
 class asteroid {
 public:
-	asteroid (sf::Vector2u windowSize, sf::Texture &asteroidTexture);
+	asteroid (sf::Vector2f windowSize, sf::Texture &asteroidTexture);
 	~asteroid () {}
 
 	const int generateSeed ();
