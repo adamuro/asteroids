@@ -118,8 +118,8 @@ void game::drawScore () {
 }
 
 void game::drawAvailableBullets () {
-	double yFieldPosition = windowSize.y - 60.0;
 	sf::RectangleShape bulletField(sf::Vector2f(10.0, 10.0));
+	double yFieldPosition = windowSize.y - 60.0;
 
 	for(int i = 0; i < 10; i++) {
 		double xFieldPosition = 10.0 + i * 15.0;
@@ -139,11 +139,11 @@ void game::increaseScore (const int value) {
 	score += value;
 }
 
-sf::IntRect game::FToIRect(const sf::FloatRect& f) {
+sf::IntRect game::FToIRect (const sf::FloatRect& f) {
 	return sf::IntRect((int) f.left, (int) f.top, (int) f.width, (int) f.height);
 }
 
-bool game::collision(const sf::Sprite &a, const sf::Sprite &b) {
+bool game::collision (const sf::Sprite &a, const sf::Sprite &b) {
 	sf::IntRect boundsA(FToIRect(a.getGlobalBounds()));
 	sf::IntRect boundsB(FToIRect(b.getGlobalBounds()));
 	sf::IntRect intersection;

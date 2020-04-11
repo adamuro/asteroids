@@ -7,7 +7,8 @@ OBJ =\
 	./src/game.cpp \
 	./src/ship.cpp \
 	./src/bullet.cpp \
-	./src/asteroid.cpp
+	./src/asteroid.cpp \
+	./src/menu.cpp
 
 all: main
 
