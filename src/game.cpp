@@ -48,11 +48,14 @@ int game::run () {
 				}
 			}
 		}
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) ||
+		  (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)))
 			s.rotate(ship::left);
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) 
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) ||
+		  (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))) 
 			s.rotate(ship::right);
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) ||
+		  (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)))
 			s.accelerate();
 		if(checkCollisions())
 			return score;

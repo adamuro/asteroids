@@ -66,16 +66,12 @@ int gameover::run () {
 		}
 		window.clear();
 		window.draw(gameOverText);
-		drawScore();
+		window.draw(scoreText);
 		drawHighscores();
 		drawNick();
 		window.display();
 	}
 	return -1; // Error
-}
-
-void gameover::drawScore () {
-	window.draw(scoreText);
 }
 
 void gameover::drawHighscores () {

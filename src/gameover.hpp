@@ -15,7 +15,6 @@ public:
 
 	int run ();
 
-	void drawScore ();
 	void drawHighscores ();
 	void drawNick ();
 
