@@ -61,7 +61,6 @@ int gameover::run () {
 				}
 			}
 			if(event.type == sf::Event::KeyPressed) {
-				std::cout << event.key.code << std::endl;
 				editNick(event.key.code);
 			}
 		}
