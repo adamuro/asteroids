@@ -6,11 +6,11 @@ gameover::gameover (sf::RenderWindow &window_, const int score):
 	gameOverFont = sf::Font();
 	gameOverFont.loadFromFile("./fonts/Starjedi.ttf");
 	gameOverText = sf::Text();
-	gameOverText.setString("Game Over");
+	gameOverText.setString("Game over");
 	gameOverText.setFont(gameOverFont);
-	gameOverText.setCharacterSize(150.0);
+	gameOverText.setCharacterSize(130.0);
 	gameOverText.setFillColor(sf::Color(sf::Color::White));
-	gameOverText.setPosition(0.0, 100.0);
+	gameOverText.setPosition(0.0, 70.0);
 	centerText(gameOverText);
 
 	generalFont = sf::Font();
@@ -19,9 +19,9 @@ gameover::gameover (sf::RenderWindow &window_, const int score):
 	scoreText = sf::Text();
 	scoreText.setString("Score: " + std::to_string(score));
 	scoreText.setFont(generalFont);
-	scoreText.setCharacterSize(50.0);
+	scoreText.setCharacterSize(70.0);
 	scoreText.setFillColor(sf::Color(sf::Color::White));
-	scoreText.setPosition(0.0, 200.0);
+	scoreText.setPosition(0.0, 250.0);
 	centerText(scoreText);
 
 	highscoresText = sf::Text();
@@ -29,9 +29,23 @@ gameover::gameover (sf::RenderWindow &window_, const int score):
 	highscoresText.setCharacterSize(30.0);
 	highscoresText.setFillColor(sf::Color(sf::Color::White));
 
-	loadHighscores();
+	enterNickText = sf::Text();
+	enterNickText.setString("Enter nick:");
+	enterNickText.setFont(generalFont);
+	enterNickText.setCharacterSize(30.0);
+	enterNickText.setFillColor(sf::Color(sf::Color::White));
+	enterNickText.setPosition(0.0, 810.0);
+	centerText(enterNickText);
 
 	nick = "";
+	nickText = sf::Text();
+	nickText.setFont(generalFont);
+	nickText.setCharacterSize(70.0);
+	nickText.setFillColor(sf::Color(sf::Color::White));
+	nickText.setPosition(0.0, 830.0);
+
+	loadHighscores();
+
 }
 
 int gameover::run () {
@@ -46,13 +60,23 @@ int gameover::run () {
 					return 0;
 				}
 			}
+			if(event.type == sf::Event::KeyPressed) {
+				std::cout << event.key.code << std::endl;
+				editNick(event.key.code);
+			}
 		}
 		window.clear();
+		window.draw(gameOverText);
+		drawScore();
 		drawHighscores();
-		
+		drawNick();
 		window.display();
 	}
 	return -1; // Error
+}
+
+void gameover::drawScore () {
+	window.draw(scoreText);
 }
 
 void gameover::drawHighscores () {
@@ -60,7 +84,7 @@ void gameover::drawHighscores () {
 		std::string standing = std::to_string(i + 1) + ". ";
 		std::string nick = std::get<std::string>(highscores.at(i));
 		int score = std::get<int>(highscores.at(i));
-		double yRecordPos = 300.0 + 40.0 * i;
+		double yRecordPos = 380.0 + 40.0 * i;
 
 		highscoresText.setString(standing + nick);
 		highscoresText.setPosition(420.0, yRecordPos);
@@ -72,9 +96,16 @@ void gameover::drawHighscores () {
 	}
 }
 
+void gameover::drawNick () {
+	nickText.setString(nick);
+	centerText(nickText);
+	window.draw(enterNickText);
+	window.draw(nickText);
+}
+
 void gameover::loadHighscores () {
 	std::ifstream highscoresFile;
-	highscoresFile.open("highscores");
+	highscoresFile.open("highscores.txt");
 	if(!highscoresFile.is_open()) {
 		throw std::ios_base::failure("Highscores file opening failed.");
 	}
@@ -94,8 +125,25 @@ void gameover::loadHighscores () {
 	highscoresFile.close();
 }
 
+void gameover::editNick (int keyCode) {
+	char key = keyCode + 'a';
+
+	if(isLetterAscii(key) && nick.length() < 32) {
+		nick += key;
+	}
+	else if(keyCode == sf::Keyboard::BackSpace) {
+		if(!nick.empty()) {
+			nick.pop_back();
+		}
+	}
+}
+
 void gameover::centerText (sf::Text &text) {
 	sf::FloatRect textRect = text.getGlobalBounds();
 	double xTextPos = windowSize.x / 2 - textRect.width / 2;
 	text.setPosition(xTextPos, text.getPosition().y);
+}
+
+bool gameover::isLetterAscii (char keyCode) {
+	return (keyCode >= 'A' && keyCode <= 'Z') || (keyCode >= 'a' && keyCode <= 'z');
 }

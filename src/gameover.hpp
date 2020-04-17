@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <utility>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
@@ -20,7 +21,9 @@ public:
 
 	void loadHighscores ();
 
+	void editNick (int keyCode);
 	void centerText (sf::Text &text);
+	bool isLetterAscii (char keyCode);
 private:
 	const sf::Vector2f windowSize;
 	sf::RenderWindow &window;
@@ -35,6 +38,8 @@ private:
 	sf::Text highscoresText;
 	std::vector<std::pair<std::string, int>> highscores;
 
+	sf::Text enterNickText;
+	sf::Text nickText;
 	std::string nick;
 };
 
