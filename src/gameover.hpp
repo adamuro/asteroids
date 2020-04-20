@@ -10,15 +10,17 @@
 
 class gameover {
 public:
-	gameover (sf::RenderWindow &window, const int score);
+	gameover (sf::RenderWindow &window, const int score_);
 	~gameover () {}
 
-	int run ();
+	void run ();
 
 	void drawHighscores ();
 	void drawNick ();
 
 	void loadHighscores ();
+	void updateHighscores ();
+	void saveHighscores ();
 
 	void editNick (int keyCode);
 	void centerText (sf::Text &text);
@@ -32,6 +34,7 @@ private:
 
 	sf::Font generalFont;
 
+	const int score;
 	sf::Text scoreText;
 
 	sf::Text highscoresText;

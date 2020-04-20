@@ -1,8 +1,9 @@
 #include "gameover.hpp"
 
-gameover::gameover (sf::RenderWindow &window_, const int score): 
+gameover::gameover (sf::RenderWindow &window_, const int score_): 
 	windowSize(window_.getSize()),
-	window(window_) {
+	window(window_),
+	score(score_) {
 	gameOverFont = sf::Font();
 	gameOverFont.loadFromFile("./fonts/Starjedi.ttf");
 	gameOverText = sf::Text();
@@ -30,7 +31,7 @@ gameover::gameover (sf::RenderWindow &window_, const int score):
 	highscoresText.setFillColor(sf::Color(sf::Color::White));
 
 	enterNickText = sf::Text();
-	enterNickText.setString("Enter nick:");
+	enterNickText.setString("Enter nickname:");
 	enterNickText.setFont(generalFont);
 	enterNickText.setCharacterSize(30.0);
 	enterNickText.setFillColor(sf::Color(sf::Color::White));
@@ -48,7 +49,7 @@ gameover::gameover (sf::RenderWindow &window_, const int score):
 
 }
 
-int gameover::run () {
+void gameover::run () {
 	while(window.isOpen()) { // Main loop
 		sf::Event event;
 
@@ -57,7 +58,11 @@ int gameover::run () {
 				window.close();
 			if(event.type == sf::Event::KeyReleased) {
 				if(event.key.code == sf::Keyboard::Return) {
-					return 0;
+					if(!nick.empty()) {
+						updateHighscores();
+						saveHighscores();
+						return;
+					}
 				}
 			}
 			if(event.type == sf::Event::KeyPressed) {
@@ -71,7 +76,6 @@ int gameover::run () {
 		drawNick();
 		window.display();
 	}
-	return -1; // Error
 }
 
 void gameover::drawHighscores () {
@@ -110,7 +114,7 @@ void gameover::loadHighscores () {
 		int loadingScore;
 
 		highscoresFile >> loadingNick;
-		highscoresFile >> loadingScore; // 860
+		highscoresFile >> loadingScore;
 
 		std::pair<std::string, int> record;
 		record = std::pair<std::string, int>(loadingNick, loadingScore);
@@ -118,6 +122,33 @@ void gameover::loadHighscores () {
 		highscores.push_back(record);
 	}
 	highscoresFile.close();
+}
+
+void gameover::saveHighscores () {
+	std::ofstream highscoresFile;
+	highscoresFile.open("highscores.txt");
+	if(!highscoresFile.is_open()) {
+		throw std::ios_base::failure("Highscores file opening failed.");
+	}
+
+	for(std::pair<std::string, int> &record: highscores) {
+		highscoresFile << 
+		std::get<std::string>(record) << " " <<
+		std::get<int>(record) << std::endl;
+	}
+	highscoresFile.close();
+}
+
+void gameover::updateHighscores () {
+	std::pair<std::string, int> record (nick, score);
+
+	for(uint i = 0; i < highscores.size(); i++) {
+		if(score > std::get<int>(highscores[i])) {
+			highscores.insert(highscores.begin() + i, record);
+			highscores.pop_back();
+			return;
+		}
+	}
 }
 
 void gameover::editNick (int keyCode) {

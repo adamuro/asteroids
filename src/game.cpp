@@ -212,7 +212,6 @@ bool game::checkCollisions () {
 				asteroids.erase(asteroids.begin() + a);
 			}
 			else if(collision(s.getSprite(), asteroids[a]->getSprite())) {
-				system("sleep 1");
 				return 1;
 			}
 }

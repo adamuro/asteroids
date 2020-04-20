@@ -32,7 +32,6 @@ int main () {
 
 /* TODO:
  * 
- * Game over screen
  * Highscores
  *
  */
