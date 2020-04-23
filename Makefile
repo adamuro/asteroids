@@ -9,7 +9,8 @@ OBJ =\
 	./src/bullet.cpp \
 	./src/asteroid.cpp \
 	./src/menu.cpp \
-	./src/gameover.cpp
+	./src/gameover.cpp \
+	./src/highscores.cpp
 
 all: main
 

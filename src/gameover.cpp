@@ -82,15 +82,15 @@ void gameover::drawHighscores () {
 	for(int i = 0; i < 10; i++) {
 		std::string standing = std::to_string(i + 1) + ". ";
 		std::string nick = std::get<std::string>(highscores.at(i));
-		int score = std::get<int>(highscores.at(i));
-		double yRecordPos = 380.0 + 40.0 * i;
+		int result = std::get<int>(highscores.at(i));
+		double yResultPos = 380.0 + 40.0 * i;
 
 		highscoresText.setString(standing + nick);
-		highscoresText.setPosition(420.0, yRecordPos);
+		highscoresText.setPosition(420.0, yResultPos);
 		window.draw(highscoresText);
 		
-		highscoresText.setString(std::to_string(score));
-		highscoresText.setPosition(860.0, yRecordPos);
+		highscoresText.setString(std::to_string(result));
+		highscoresText.setPosition(860.0, yResultPos);
 		window.draw(highscoresText);
 	}
 }
@@ -116,10 +116,10 @@ void gameover::loadHighscores () {
 		highscoresFile >> loadingNick;
 		highscoresFile >> loadingScore;
 
-		std::pair<std::string, int> record;
-		record = std::pair<std::string, int>(loadingNick, loadingScore);
+		std::pair<std::string, int> result;
+		result = std::pair<std::string, int>(loadingNick, loadingScore);
 
-		highscores.push_back(record);
+		highscores.push_back(result);
 	}
 	highscoresFile.close();
 }
@@ -131,20 +131,20 @@ void gameover::saveHighscores () {
 		throw std::ios_base::failure("Highscores file opening failed.");
 	}
 
-	for(std::pair<std::string, int> &record: highscores) {
+	for(std::pair<std::string, int> &result: highscores) {
 		highscoresFile << 
-		std::get<std::string>(record) << " " <<
-		std::get<int>(record) << std::endl;
+		std::get<std::string>(result) << " " <<
+		std::get<int>(result) << std::endl;
 	}
 	highscoresFile.close();
 }
 
 void gameover::updateHighscores () {
-	std::pair<std::string, int> record (nick, score);
+	std::pair<std::string, int> result (nick, score);
 
 	for(uint i = 0; i < highscores.size(); i++) {
 		if(score > std::get<int>(highscores[i])) {
-			highscores.insert(highscores.begin() + i, record);
+			highscores.insert(highscores.begin() + i, result);
 			highscores.pop_back();
 			return;
 		}
@@ -154,7 +154,7 @@ void gameover::updateHighscores () {
 void gameover::editNick (int keyCode) {
 	char key = keyCode + 'a';
 
-	if(isLetterAscii(key) && nick.length() < 32) {
+	if(isLetterAscii(key) && nick.length() < 16) {
 		nick += key;
 	}
 	else if(keyCode == sf::Keyboard::BackSpace) {
